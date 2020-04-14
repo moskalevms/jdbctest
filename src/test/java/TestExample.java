@@ -1,5 +1,6 @@
 import org.h2.tools.DeleteDbFiles;
 import org.h2.tools.Server;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,28 +22,62 @@ public class TestExample {
 
     private Connection connection;
     private CrudOperations crudOperations;
+    private Server server;
 
-    @Before
+    @Before()
     public void init() throws SQLException {
+
         DeleteDbFiles.execute("~", "test", true);
-        Server server = Server.createWebServer();
+        server = Server.createWebServer();
         server.start();
-        Connection conn = DriverManager.getConnection(URL);
-        crudOperations = new CrudOperationUserImpl(connection);
+        Connection conn = DriverManager.getConnection(URL, "sa", "");
+        crudOperations = new CrudOperationUserImpl(conn);
         Statement statement = conn.createStatement();
-        statement.execute("create table users(id serial, time_zone varchar(255), zip varchar(255))");
-        
-
-
+        statement.execute("create table if not exists users(id serial primary key auto_increment not null, login varchar(255), password varchar(255), firstName varchar(255), lastName varchar(255))");
     }
 
     @Test
-    public void test(){
+    public void testCreate(){
         User user = new User(1, "admin", "123", "Ivan", "Ivanov");
         crudOperations.create(user);
         User user2 = crudOperations.read(user.getId());
         Assert.assertEquals("Все плохо", user, user2 );
     }
+
+    @Test
+    public void testUpdate(){
+        User user = new User(1, "admin", "123", "Ivan", "Ivanov");
+        crudOperations.create(user);
+        user.setPassword("987");
+        crudOperations.update(user);
+        User user2 = crudOperations.read(user.getId());
+        Assert.assertEquals("Все плохо", user, user2 );
+    }
+
+    @Test
+    public void testDelete(){
+        User user = new User(1, "admin", "123", "Ivan", "Ivanov");
+        crudOperations.create(user);
+        crudOperations.delete(user);
+        User user2 = crudOperations.read(user.getId());
+        Assert.assertEquals("Все плохо", null, user2 );
+    }
+
+    @Test
+    public void testRead(){
+        User user = new User(1, "admin", "123", "Ivan", "Ivanov");
+        crudOperations.create(user);
+        crudOperations.read(1);
+        User user2 = crudOperations.read(1);
+        Assert.assertEquals("Все плохо", user, user2 );
+    }
+
+    @After
+    public void stop(){
+        server.stop();
+    }
+
+
 
 
 /**
