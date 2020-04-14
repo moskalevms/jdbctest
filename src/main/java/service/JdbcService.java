@@ -20,7 +20,7 @@ public class JdbcService {
         createTable(connection, user);
         readTable(connection,user);
         updateTable(connection,user);
-        deleteTable(connection);
+        //deleteTable(connection);
 
     }
 

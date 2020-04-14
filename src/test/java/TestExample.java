@@ -1,6 +1,11 @@
 import org.h2.tools.DeleteDbFiles;
 import org.h2.tools.Server;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+import ru.sberbank.entity.User;
+import ru.sberbank.service.CrudOperations;
+import service.impl.CrudOperationUserImpl;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,17 +19,36 @@ public class TestExample {
     private static final String USERNAME = "sa";
     private static final String PASSWORD = "";
 
+    private Connection connection;
+    private CrudOperations crudOperations;
+
+    @Before
+    public void init() throws SQLException {
+        DeleteDbFiles.execute("~", "test", true);
+        Server server = Server.createWebServer();
+        server.start();
+        Connection conn = DriverManager.getConnection(URL);
+        crudOperations = new CrudOperationUserImpl(connection);
+        Statement statement = conn.createStatement();
+        statement.execute("create table users(id serial, time_zone varchar(255), zip varchar(255))");
+        
+
+
+    }
+
+    @Test
+    public void test(){
+        User user = new User(1, "admin", "123", "Ivan", "Ivanov");
+        crudOperations.create(user);
+        User user2 = crudOperations.read(user.getId());
+        Assert.assertEquals("Все плохо", user, user2 );
+    }
+
+
+/**
     @Test
     public void test1() throws SQLException, InterruptedException {
 
-        /**
-         * Нужно реализовать сервис который будет выполнять crud операции нужно использовать jdbc
-         * Create (создание);
-         * Read (чтение);
-         * Update (обновление);
-         * Delete (удаление).
-         * И реализовать для него тесты
-         */
         DeleteDbFiles.execute("~", "test", true);
         Server server = Server.createWebServer();
         server.start();
@@ -43,4 +67,5 @@ public class TestExample {
         conn.close();
 
     }
+    */
 }
