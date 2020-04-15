@@ -1,10 +1,8 @@
 package ru.sberbank.service;
 
-import ru.sberbank.entity.User;
-
-public interface CrudOperations {
-    void create(User user);
-    void update(User user);
-    User read(long id);
-    void delete(User user);
+public interface CrudOperations<T> {
+    void create(T obj);
+    void update(T obj);
+    T read(long id);
+    void delete(T obj);
 }

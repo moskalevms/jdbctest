@@ -5,7 +5,7 @@ import ru.sberbank.service.CrudOperations;
 
 import java.sql.*;
 
-public class CrudOperationUserImpl implements CrudOperations {
+public class CrudOperationUserImpl implements CrudOperations<User> {
 
     private Connection connection;
 
