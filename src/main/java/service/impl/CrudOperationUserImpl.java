@@ -1,11 +1,17 @@
 package service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.sberbank.entity.User;
 import ru.sberbank.service.CrudOperations;
 
 import java.sql.*;
 
+@Component("crudImpl")
 public class CrudOperationUserImpl implements CrudOperations<User> {
+
+    @Autowired
+    User user;
 
     private Connection connection;
     public CrudOperationUserImpl(Connection connection) {
@@ -27,6 +33,7 @@ public class CrudOperationUserImpl implements CrudOperations<User> {
             e.printStackTrace();
         }
     }
+
     @Override
     public void update(User user) {
         user.setPassword("987");
@@ -66,7 +73,8 @@ public class CrudOperationUserImpl implements CrudOperations<User> {
     @Override
     public void delete(User user) {
         try {
-            connection.createStatement().execute("DELETE FROM users where id = 1");
+            connection.createStatement().execute("DELETE FROM users where id = " + user.getId());
+            System.out.println("Запись удалена");
         } catch (SQLException e) {
             e.printStackTrace();
         }

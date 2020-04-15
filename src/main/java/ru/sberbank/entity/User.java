@@ -1,8 +1,14 @@
 package ru.sberbank.entity;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import java.util.Objects;
 
+@Component("user")
+@Scope("prototype")
 public class User {
+
     private long id;
     private String login;
     private String password;
