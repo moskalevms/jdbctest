@@ -8,11 +8,9 @@ import java.sql.*;
 public class CrudOperationUserImpl implements CrudOperations<User> {
 
     private Connection connection;
-
     public CrudOperationUserImpl(Connection connection) {
         this.connection = connection;
     }
-
     @Override
     public void create(User user) {
         System.out.println("Добавляю пользователя..");
@@ -25,15 +23,14 @@ public class CrudOperationUserImpl implements CrudOperations<User> {
             ps.setString(4, user.getFirstName());
             ps.setString(5, user.getLastName());
             ps.execute();
-        } catch (SQLException | NullPointerException e) {
+        } catch (SQLException  e) {
             e.printStackTrace();
-            System.out.println("Мы здесь");
         }
     }
-
     @Override
     public void update(User user) {
-        String SQLUpdate = "UPDATE users SET password = '987'";
+        user.setPassword("987");
+        String SQLUpdate = "UPDATE users SET password = " + "'" + user.getPassword() + "'";
         try {
             connection.createStatement().executeUpdate(SQLUpdate);
         } catch (SQLException e) {
@@ -50,7 +47,6 @@ public class CrudOperationUserImpl implements CrudOperations<User> {
         try {
             statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
-
             if(!resultSet.next()){
                 return null;
             }
