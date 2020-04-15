@@ -15,9 +15,8 @@ public class Main {
         CrudOperations crud = context.getBean("crudImpl", CrudOperations.class);
         crud.create(user);
         crud.update(user);
-        crud.read(1);
+        crud.read(user.getId());
         crud.delete(user);
-        System.out.println(user);
     }
 
 

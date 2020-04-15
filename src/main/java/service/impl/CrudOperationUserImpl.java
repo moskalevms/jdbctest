@@ -8,7 +8,7 @@ import ru.sberbank.service.CrudOperations;
 import java.sql.*;
 
 @Component("crudImpl")
-public class CrudOperationUserImpl implements CrudOperations<User> {
+public class CrudOperationUserImpl implements CrudOperations<Long, User> {
 
     @Autowired
     User user;
@@ -47,7 +47,7 @@ public class CrudOperationUserImpl implements CrudOperations<User> {
     }
 
     @Override
-    public User read(long id) {
+    public User read(Long id) {
         User user = new User();
         String sql = "SELECT * FROM users WHERE id = " + id;
         Statement statement = null;

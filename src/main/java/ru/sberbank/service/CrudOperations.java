@@ -1,8 +1,8 @@
 package ru.sberbank.service;
 
-public interface CrudOperations<T> {
-    void create(T obj);
-    void update(T obj);
-    T read(long id);
-    void delete(T obj);
+public interface CrudOperations<K, V> {
+    void create(V obj);
+    void update(V obj);
+    V read(Long key);
+    void delete(V obj);
 }
