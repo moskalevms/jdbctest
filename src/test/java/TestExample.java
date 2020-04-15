@@ -41,7 +41,7 @@ public class TestExample {
         User user = new User(1, "admin", "123", "Ivan", "Ivanov");
         crudOperations.create(user);
         User user2 = crudOperations.read(user.getId());
-        Assert.assertEquals("Все плохо", user, user2 );
+        Assert.assertEquals("Все хорошо", user, user2 );
     }
 
     @Test
@@ -51,7 +51,7 @@ public class TestExample {
         user.setPassword("987");
         crudOperations.update(user);
         User user2 = crudOperations.read(user.getId());
-        Assert.assertEquals("Все плохо", user, user2 );
+        Assert.assertEquals("Все хорошо", user, user2 );
     }
 
     @Test
@@ -60,7 +60,7 @@ public class TestExample {
         crudOperations.create(user);
         crudOperations.delete(user);
         User user2 = crudOperations.read(user.getId());
-        Assert.assertEquals("Все плохо", null, user2 );
+        Assert.assertEquals("Все хорошо", null, user2 );
     }
 
     @Test
@@ -69,11 +69,14 @@ public class TestExample {
         crudOperations.create(user);
         crudOperations.read(1);
         User user2 = crudOperations.read(1);
-        Assert.assertEquals("Все плохо", user, user2 );
+        Assert.assertEquals("Все хорошо", user, user2 );
     }
 
     @After
-    public void stop(){
+    public void stop() throws SQLException {
+        Connection conn = DriverManager.getConnection(URL, "sa", "");
+        Statement statement = conn.createStatement();
+        statement.execute("DROP table users");
         server.stop();
     }
 

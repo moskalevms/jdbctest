@@ -13,7 +13,6 @@ public class CrudOperationUserImpl implements CrudOperations {
         this.connection = connection;
     }
 
-
     @Override
     public void create(User user) {
         System.out.println("Добавляю пользователя..");
