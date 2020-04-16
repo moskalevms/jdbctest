@@ -7,17 +7,23 @@ import ru.sberbank.service.CrudOperations;
 import ru.sberbank.service.JdbcConnection;
 import service.impl.CrudOperationUserImpl;
 
+import java.sql.Connection;
+
 @Configuration
 public class SpringConfig {
-    private JdbcConnection conn = new JdbcConnection();
-    @Bean(name = "user")
-    public User user(){
-        return new User();
+
+   // Connection connection;
+
+    @Bean(name = "jdbcConn")
+    public JdbcConnection jdbcConnection(){
+        return new JdbcConnection();
     }
-    @Bean(name ="crudImpl")
-    public CrudOperations crudOperations(User user){
-        return new CrudOperationUserImpl(conn.getConnection());
+
+     @Bean(name ="crudImpl")
+     public CrudOperations crudOperations(){
+        return new CrudOperationUserImpl();
     }
+
 }
 
 
