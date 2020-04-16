@@ -17,6 +17,5 @@ public class Main {
         crud.createTable();
         crud.create(user);
         crud.delete(user.getId());
-
     }
 }
